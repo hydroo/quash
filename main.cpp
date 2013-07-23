@@ -2,6 +2,7 @@
 
 #include "complex.hpp"
 #include "complexvector.hpp"
+#include "complexmatrix.hpp"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ int main(int argc, char **args) {
     ComplexVector w(ComplexVector::fromString("[-1, -i, 1 - i]"));
     Complex c(v.at(0));
     Complex d(v.at(1));
+
+
 
     qDebug() << v;
     qDebug() << w;
@@ -31,6 +34,24 @@ int main(int argc, char **args) {
     qDebug() << "* " << ComplexVector::mul(v, Complex::fromString("i"));
     qDebug() << ". " << ComplexVector::innerProduct(v, w);
     qDebug() << "x " << ComplexVector::tensorProduct(v, w);
+
+    ComplexMatrix m(ComplexMatrix::fromString(
+            "[1, -i, i]"
+            "[0,  1, 0]"
+            "[i, -i, 1]"));
+    ComplexMatrix n(ComplexMatrix::fromString(
+            "[1, 0, 0]"
+            "[0, 1, 0]"
+            "[0, 0, 1]"));
+
+    qDebug() << "";
+    qDebug() << m.toString(0) << '\n' << n.toString(0);
+    qDebug() << "+" << ComplexMatrix::add(m,n).toString(0);
+    qDebug() << "-" << ComplexMatrix::sub(m,n).toString(0);
+    qDebug() << "*" << ComplexMatrix::mul(m,n).toString(0);
+    qDebug() << "x" << ComplexMatrix::tensorProduct(m,n).toString(0);
+    qDebug() << "*" << ComplexMatrix::mul(n,v).toString(1);
+    qDebug() << "*" << ComplexMatrix::mul(v,n).toString(1);
 
     return 0;
 }

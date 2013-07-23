@@ -6,6 +6,8 @@
 
 #include "complex.hpp"
 
+struct ComplexMatrix;
+
 class ComplexVector {
 public:
     ComplexVector() : _v(nullptr), _length(0) {}
@@ -33,6 +35,8 @@ public:
     static ComplexVector Zero(int length);
     static ComplexVector One(int length);
     static ComplexVector Identity(int length, int where); // zero everwhere and one at 'where'
+
+    friend ComplexMatrix;
 
 private:
     Complex *_v;

@@ -12,12 +12,14 @@ BINARY = quash
 
 HEADERS = \
 	complex.hpp \
+	complexmatrix.hpp \
 	complexvector.hpp \
 	debug.hpp \
 	real.hpp \
 
 SOURCES = \
 	complex.cpp \
+	complexmatrix.cpp \
 	complexvector.cpp \
 	debug.cpp \
 	main.cpp \
