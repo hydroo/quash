@@ -21,7 +21,7 @@ public:
 
     Complex conjugate() const {return Complex::fromReal(_r, Real::mul(Real::fromDouble(-1), _i));}
     Real modulus() const {return Real::add(_r.square(), _i.square()).squareRoot();}
-    Real angle() const {Real m = this->modulus(); if (Real::smallerEqual(m, Real::Zero)) { return Real::Zero;} else { Real j(_i); j.set(Real::div(j, m)); return j.arcSine();}}
+    Real angle() const {Real m = this->modulus(); if (Real::isSmallerEqual(m, Real::Zero)) { return Real::Zero;} else { Real j(_i); j.set(Real::div(j, m)); return j.arcSine();}}
 
     QString toString(int precision = -1) const;
 

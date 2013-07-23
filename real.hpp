@@ -31,10 +31,10 @@ public:
     static Real mul(const Real& lhs, const Real& rhs) {return Real::fromDouble(lhs._d * rhs._d);}
     static Real div(const Real& lhs, const Real& rhs) {return Real::fromDouble(lhs._d / rhs._d);}
 
-    static bool smallerThan(const Real& lhs, const Real& rhs) {return lhs._d < rhs._d;}
-    static bool smallerEqual(const Real& lhs, const Real& rhs) {return lhs._d <= rhs._d;}
-    static bool greaterThan(const Real& lhs, const Real& rhs) {return lhs._d > rhs._d;}
-    static bool greaterEqual(const Real& lhs, const Real& rhs) {return lhs._d >= rhs._d;}
+    static bool isSmallerThan(const Real& lhs, const Real& rhs) {return lhs._d < rhs._d;}
+    static bool isSmallerEqual(const Real& lhs, const Real& rhs) {return lhs._d <= rhs._d;}
+    static bool isGreaterThan(const Real& lhs, const Real& rhs) {return lhs._d > rhs._d;}
+    static bool isGreaterEqual(const Real& lhs, const Real& rhs) {return lhs._d >= rhs._d;}
 
     static const Real Zero;
     static const Real One;
