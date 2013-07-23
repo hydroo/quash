@@ -4,11 +4,6 @@
 
 #include "debug.hpp"
 
-ComplexVector:: ComplexVector(const ComplexVector& v) : _length(v._length) {
-    _v = new Complex[_length];
-    set(v);
-}
-
 ComplexVector::ComplexVector(int length) : _length(length) {
     _v = new Complex[_length];
 }
@@ -21,7 +16,7 @@ ComplexVector& ComplexVector::set(const ComplexVector& v) {
     delete[] _v;
     _length = v._length;
     _v = new Complex[_length];
-    for (int i = 0; i < v._length; i += 1) {
+    for (int i = 0; i < _length; i += 1) {
         at(i).set(v.at(i));
     }
     return *this;
@@ -108,6 +103,25 @@ ComplexVector ComplexVector::tensorProduct(const ComplexVector& lhs, const Compl
         }
     }
     return ret;
+}
+
+ComplexVector ComplexVector::Zero(int length) {
+    ComplexVector v(length);
+    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::Zero);}
+    return v;
+}
+
+ComplexVector ComplexVector::One(int length) {
+    ComplexVector v(length);
+    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::One);}
+    return v;
+}
+
+ComplexVector ComplexVector::Identity(int length, int where) {
+    ComplexVector v(length);
+    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::Zero);}
+    v.at(where).set(Complex::One);
+    return v;
 }
 
 QDebug operator<<(QDebug s, const ComplexVector& v) {

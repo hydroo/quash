@@ -10,10 +10,10 @@ class ComplexVector {
 public:
     ComplexVector() : _v(nullptr), _length(0) {}
     explicit ComplexVector(int length);
-    ComplexVector(const ComplexVector& v_);
+    ComplexVector(const ComplexVector& v) {_v = nullptr; set(v);}
     virtual ~ComplexVector();
 
-    ComplexVector& operator=(const ComplexVector& v_) = delete;
+    ComplexVector& operator=(const ComplexVector& v) = delete;
 
     ComplexVector& set(const ComplexVector& v);
 
@@ -29,6 +29,10 @@ public:
     static ComplexVector mul(const ComplexVector& lhs, const Complex& rhs);
     static Complex innerProduct(const ComplexVector& lhs, const ComplexVector& rhs);
     static ComplexVector tensorProduct(const ComplexVector& lhs, const ComplexVector& rhs);
+
+    static ComplexVector Zero(int length);
+    static ComplexVector One(int length);
+    static ComplexVector Identity(int length, int where); // zero everwhere and one at 'where'
 
 private:
     Complex *_v;
