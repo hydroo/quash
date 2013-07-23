@@ -23,6 +23,7 @@ public:
     const Complex& at(int index) const {return _v[index];}
 
     ComplexVector conjugate() const;
+    Real norm() const;
 
     QString toString(int precision = -1) const;
 
@@ -33,6 +34,7 @@ public:
     static ComplexVector mul(const ComplexVector& lhs, const Complex& rhs);
     static Complex innerProduct(const ComplexVector& lhs, const ComplexVector& rhs);
     static ComplexVector tensorProduct(const ComplexVector& lhs, const ComplexVector& rhs);
+    static Real distance(const ComplexVector& lhs, const ComplexVector& rhs);
 
     static ComplexVector Zero(int length);
     static ComplexVector One(int length);

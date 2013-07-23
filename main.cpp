@@ -17,11 +17,12 @@ int main(int argc, char **args) {
 
 
 
-    qDebug() << v;
-    qDebug() << w;
+    qDebug() << v << "norm" << v.norm();
+    qDebug() << w << "norm" << w.norm();
     qDebug() << c << ", r " << c.modulus() << ", angle " << c.angle();
     qDebug() << d << ", r " << d.modulus() << ", angle " << d.angle();
 
+    qDebug() << "distance" << ComplexVector::distance(v, w);
     qDebug() << "";
     qDebug() << "+ " << Complex::add(c, d) << ", r " << Complex::add(c, d).modulus() << ", angle " << Complex::add(c, d).angle();
     qDebug() << "- " << Complex::sub(c, d) << ", r " << Complex::sub(c, d).modulus() << ", angle " << Complex::sub(c, d).angle();

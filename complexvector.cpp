@@ -30,6 +30,10 @@ ComplexVector ComplexVector::conjugate() const {
     return v;
 }
 
+Real ComplexVector::norm() const {
+    return ComplexVector::innerProduct(*this, *this).real().squareRoot();
+}
+
 QString ComplexVector::toString(int p) const {
     QString ret;
     QTextStream s(&ret);
@@ -110,6 +114,10 @@ ComplexVector ComplexVector::tensorProduct(const ComplexVector& lhs, const Compl
         }
     }
     return ret;
+}
+
+Real ComplexVector::distance(const ComplexVector& lhs, const ComplexVector& rhs) {
+    return ComplexVector::sub(lhs, rhs).norm();
 }
 
 ComplexVector ComplexVector::Zero(int length) {
