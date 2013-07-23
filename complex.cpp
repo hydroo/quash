@@ -21,7 +21,7 @@ Complex Complex::fromString(const QString& s_) {
     Real r, i;
 
     if (s.contains('i') == false) {
-        if (s.startsWith('-')) {
+        if (s.startsWith('-') || s.startsWith('+')) {
             ASSERT(s.right(s.size()-1).contains('-') == false && s.right(s.size()-1).contains('+') == false);
         } else {
             ASSERT(s.contains('-') == false && s.contains('+') == false);
