@@ -22,6 +22,13 @@ ComplexVector& ComplexVector::set(const ComplexVector& v) {
     return *this;
 }
 
+ComplexVector ComplexVector::conjugate() const {
+    ComplexVector v(_length);
+    for (int i = 0; i < _length; i += 1) {
+        v.at(i).set(at(i).conjugate());
+    }
+    return v;
+}
 
 QString ComplexVector::toString(int p) const {
     QString ret;

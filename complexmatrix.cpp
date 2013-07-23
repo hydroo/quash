@@ -42,6 +42,20 @@ ComplexVector ComplexMatrix::rowAt(int row_) const {
     return c;
 }
 
+ComplexMatrix ComplexMatrix::adjoint() const {
+    return conjugate().transpose();
+}
+
+ComplexMatrix ComplexMatrix::conjugate() const {
+    ComplexMatrix m(_height, _width);
+    for (int i = 0; i < _height; i += 1) {
+        for (int j = 0; j < _width; j += 1) {
+            m.at(i, j).set(at(i, j).conjugate());
+        }
+    }
+    return m;
+}
+
 ComplexMatrix ComplexMatrix::transpose() const {
     ComplexMatrix m(_width, _height);
     for (int i = 0; i < _width; i += 1) {

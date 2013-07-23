@@ -22,6 +22,8 @@ public:
     Complex& at(int index) {return _v[index];}
     const Complex& at(int index) const {return _v[index];}
 
+    ComplexVector conjugate() const;
+
     QString toString(int precision = -1) const;
 
     static ComplexVector fromString(const QString& s);
