@@ -109,7 +109,6 @@ ComplexMatrix ComplexMatrix::fromString(const QString& s_) {
         ASSERT(width == cells.size());
 
         for (int j = 0; j < width; j += 1) {
-            qDebug() << cells[j].trimmed();
             m.at(i, j).set(Complex::fromString(cells[j].trimmed()));
         }
     }
