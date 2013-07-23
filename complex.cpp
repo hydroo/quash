@@ -20,7 +20,7 @@ QString Complex::toString(int p) const {
         } else if (i == "-1") {
             return "-i";
         } else {
-            return i;
+            return i + "i";
         }
     } else {
         if (i == "0") {
