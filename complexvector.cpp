@@ -97,7 +97,7 @@ Complex ComplexVector::innerProduct(const ComplexVector& lhs, const ComplexVecto
     ASSERT(lhs._length == rhs._length);
     Complex ret(Complex::Zero);
     for (int i = 0; i < lhs._length; i += 1) {
-        ret.set(Complex::add(ret, Complex::mul(lhs.at(i), rhs.at(i))));
+        ret.set(Complex::add(ret, Complex::mul(lhs.at(i).conjugate(), rhs.at(i))));
     }
     return ret;
 }

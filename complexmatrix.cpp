@@ -167,7 +167,10 @@ ComplexMatrix ComplexMatrix::mul(const ComplexMatrix& lhs, const ComplexMatrix& 
     ComplexMatrix m(lhs._height, rhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < rhs._width; j += 1) {
-            m.at(i, j).set(ComplexVector::innerProduct(lhs.rowAt(i), rhs.colAt(j)));
+            m.at(i, j).set(Complex::Zero);
+            for (int k = 0; k < lhs._width; k += 1) {
+                m.at(i, j).set(Complex::add(m.at(i, j), Complex::mul(lhs.at(i, k), rhs.at(k, j))));
+            }
         }
     }
     return m;
