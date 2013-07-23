@@ -9,10 +9,33 @@ const Complex Complex::One = Complex::fromReal(Real::One);
 const Complex Complex::I = Complex::fromReal(Real::Zero, Real::One);
 
 QString Complex::toString(int p) const {
-    if (Real::smallerThan(imag(), Real::fromDouble(0))) {
-        return QString("%1 - %2i").arg(_r.toString(p)).arg(Real::mul(_i, Real::MinusOne).toString(p));
+    QString r = _r.toString(p);
+    QString i = _i.toString(p);
+
+    if (r == "0") {
+        if (i == "0") {
+            return "0";
+        } else if (i == "1") {
+            return "i";
+        } else if (i == "-1") {
+            return "-i";
+        } else {
+            return i;
+        }
     } else {
-        return QString("%1 + %2i").arg(_r.toString(p)).arg(_i.toString(p));
+        if (i == "0") {
+            return r;
+        } else if (i == "1") {
+            return QString("%1 + i").arg(r);
+        } else if (i == "-1") {
+            return QString("%1 - i").arg(r);
+        } else {
+            if (Real::isSmallerThan(imag(), Real::fromDouble(0))) {
+                return QString("%1 - %2i").arg(_r.toString(p)).arg(Real::mul(_i, Real::MinusOne).toString(p));
+            } else {
+                return QString("%1 + %2i").arg(_r.toString(p)).arg(_i.toString(p));
+            }
+        }
     }
 }
 

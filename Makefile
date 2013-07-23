@@ -15,6 +15,7 @@ HEADERS = \
 	complexmatrix.hpp \
 	complexvector.hpp \
 	debug.hpp \
+	misc.hpp \
 	real.hpp \
 
 SOURCES = \
@@ -23,6 +24,7 @@ SOURCES = \
 	complexvector.cpp \
 	debug.cpp \
 	main.cpp \
+	misc.cpp \
 	real.cpp
 
 all: dep $(BINARY)

@@ -11,7 +11,7 @@ int main(int argc, char **args) {
     (void) argc; (void) args;
 
     ComplexVector v(ComplexVector::fromString("[1, i, 1 + i]"));
-    ComplexVector w(ComplexVector::fromString("[-1, -i, 1 - i]"));
+    ComplexVector w(ComplexVector::fromString("[-1, 1 - i, -1 - i]"));
     Complex c(v.at(0));
     Complex d(v.at(1));
 
@@ -45,13 +45,13 @@ int main(int argc, char **args) {
             "[0, 0, 1]"));
 
     qDebug() << "";
-    qDebug() << m.toString(0) << '\n' << n.toString(0);
-    qDebug() << "+" << ComplexMatrix::add(m,n).toString(0);
-    qDebug() << "-" << ComplexMatrix::sub(m,n).toString(0);
-    qDebug() << "*" << ComplexMatrix::mul(m,n).toString(0);
-    qDebug() << "x" << ComplexMatrix::tensorProduct(m,n).toString(0);
-    qDebug() << "*" << ComplexMatrix::mul(n,v).toString(1);
-    qDebug() << "*" << ComplexMatrix::mul(v,n).toString(1);
+    qDebug() << m << '\n' << n;
+    qDebug() << "+" << ComplexMatrix::add(m,n);
+    qDebug() << "-" << ComplexMatrix::sub(m,n);
+    qDebug() << "*" << ComplexMatrix::mul(m,n);
+    qDebug() << "x" << ComplexMatrix::tensorProduct(m,n);
+    qDebug() << "*" << ComplexMatrix::mul(n,v);
+    qDebug() << "*" << ComplexMatrix::mul(v,n);
 
     return 0;
 }

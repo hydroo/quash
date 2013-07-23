@@ -1,13 +1,18 @@
 #include "real.hpp"
 
 #include "debug.hpp"
+#include "misc.hpp"
 
 const Real Real::Zero = Real::fromDouble(0);
 const Real Real::One = Real::fromDouble(1);
 const Real Real::MinusOne = Real::fromDouble(-1);
 
 QString Real::toString(int p) const {
-    return QString("%1").arg(_d, 0, 'f', p);
+    if (p == -1) {
+        return removeTrailingZeros(QString("%1").arg(_d, 0, 'f', p));
+    } else {
+        return QString("%1").arg(_d, 0, 'f', p);
+    }
 }
 
 Real Real::fromString(const QString& s) {
