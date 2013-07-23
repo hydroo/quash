@@ -42,6 +42,16 @@ ComplexVector ComplexMatrix::rowAt(int row_) const {
     return c;
 }
 
+ComplexMatrix ComplexMatrix::transpose() const {
+    ComplexMatrix m(_width, _height);
+    for (int i = 0; i < _width; i += 1) {
+        for (int j = 0; j < _height; j += 1) {
+            m.at(i, j).set(at(j, i));
+        }
+    }
+    return m; 
+}
+
 QString ComplexMatrix::toString(int precision) const {
 
     QString s[_height][_width];

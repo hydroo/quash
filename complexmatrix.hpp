@@ -23,6 +23,8 @@ public:
     ComplexVector colAt(int col_) const;
     ComplexVector rowAt(int row_) const;
 
+    ComplexMatrix transpose() const;
+
     QString toString(int precision = -1) const;
 
     static ComplexMatrix fromComplexColVector(const ComplexVector& v);

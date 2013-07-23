@@ -49,6 +49,7 @@ int main(int argc, char **args) {
     qDebug() << "+" << ComplexMatrix::add(m,n);
     qDebug() << "-" << ComplexMatrix::sub(m,n);
     qDebug() << "*" << ComplexMatrix::mul(m,n);
+    qDebug() << "T" << m.transpose();
     qDebug() << "x" << ComplexMatrix::tensorProduct(m,n);
     qDebug() << "*" << ComplexMatrix::mul(n,v);
     qDebug() << "*" << ComplexMatrix::mul(v,n);
