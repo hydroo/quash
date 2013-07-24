@@ -26,6 +26,7 @@ public:
     ComplexMatrix adjoint() const;
     ComplexMatrix conjugate() const;
     bool isHermitian() const;
+    bool isUnitary() const;
     ComplexMatrix transpose() const;
 
     QString toString(int precision = -1) const;
@@ -44,7 +45,6 @@ public:
 
     static bool isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error = 1E-9);
 
-    static ComplexMatrix Zero(int height, int width);
     static ComplexMatrix Identity(int height);
 
 private:

@@ -60,6 +60,10 @@ bool ComplexMatrix::isHermitian() const {
     return _height == _width && ComplexMatrix::isEqual(*this, this->transpose().conjugate());
 }
 
+bool ComplexMatrix::isUnitary() const {
+    return _height == _width && ComplexMatrix::isEqual(ComplexMatrix::Identity(_height), ComplexMatrix::mul(*this, this->transpose().conjugate()));
+}
+
 ComplexMatrix ComplexMatrix::transpose() const {
     ComplexMatrix m(_width, _height);
     for (int i = 0; i < _width; i += 1) {
@@ -223,12 +227,20 @@ bool ComplexMatrix::isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, 
     return equal;
 }
 
-//ComplexMatrix ComplexMatrix::Zero(int height, int width) {
-//}
-//
-//ComplexMatrix ComplexMatrix::Identity(int height) {
-//}
-//
+ComplexMatrix ComplexMatrix::Identity(int height) {
+    ComplexMatrix m(height, height);
+    for (int i = 0; i < height; i += 1) {
+        for (int j = 0; j < height; j += 1) {
+            if (i == j) {
+                m.at(i, j).set(Complex::One);
+            } else {
+                m.at(i, j).set(Complex::Zero);
+            }
+        }
+    }
+    return m;
+}
+
 QDebug operator<<(QDebug s, const ComplexMatrix& v) {
     s << v.toString();
     return s;
