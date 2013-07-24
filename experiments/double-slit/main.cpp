@@ -24,16 +24,16 @@ int main(int argc, char **args) {
             "[0, 0, 0, 0,   0, 1, 0, 0]"
             "[0, 0, 0, 0,   0, 0, 1, 0]"
             "[0, 0, 0, 0,   0, 0, 0, 1]"));
-    Complex_set(ComplexMatrix_at(&m, 1, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
-    Complex_set(ComplexMatrix_at(&m, 2, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
+    Complex_set(ComplexMatrix_at(&m, 1, 0), Complex(1 / sqrt(2)));
+    Complex_set(ComplexMatrix_at(&m, 2, 0), Complex(1 / sqrt(2)));
 
-    Complex_set(ComplexMatrix_at(&m, 3, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(ComplexMatrix_at(&m, 4, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(ComplexMatrix_at(&m, 5, 1), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 3, 1), Complex_div(Complex_fromString("-1+i"), Real(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 4, 1), Complex_div(Complex_fromString("-1+i"), Real(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 5, 1), Complex_div(Complex_fromString(" 1-i"), Real(sqrt(6))));
 
-    Complex_set(ComplexMatrix_at(&m, 5, 2), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(ComplexMatrix_at(&m, 6, 2), Complex_div(Complex_fromString("-1-i"), Real_fromDouble(sqrt(6))));
-    Complex_set(ComplexMatrix_at(&m, 7, 2), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 5, 2), Complex_div(Complex_fromString("-1+i"), Real(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 6, 2), Complex_div(Complex_fromString("-1-i"), Real(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 7, 2), Complex_div(Complex_fromString(" 1-i"), Real(sqrt(6))));
 
     ComplexVector v(ComplexVector_fromString("[1,0,0,0,   0,0,0,0]"));
 

@@ -26,7 +26,7 @@ QString Complex_toString(const Complex& c, int p) {
         } else if (i == "-1") {
             return QString("%1 - i").arg(r);
         } else {
-            if (Real_isSmallerThan(Complex_imag(c), Real_fromDouble(0))) {
+            if (Real_isSmallerThan(Complex_imag(c), Real(0))) {
                 return QString("%1 - %2i").arg(r).arg(Real_toString(Real_mul(Complex_imag(c), Real_MinusOne), p));
             } else {
                 return QString("%1 + %2i").arg(r).arg(Real_toString(Complex_imag(c), p));
@@ -75,7 +75,7 @@ Complex Complex_fromString(const QString& s_) {
         Real_set(&r, Real_fromString(rneg ? "-" + l[0] : l[0]));
         Real_set(&i, sep == '+' ? Real_fromString(l[1]) : Real_mul(Real_fromString(l[1]), Real_MinusOne));
     }
-    return Complex_fromReal(r, i);
+    return Complex(r, i);
 }
 
 QDebug operator<<(QDebug s, const Complex& c) {

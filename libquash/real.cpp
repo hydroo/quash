@@ -15,7 +15,7 @@ Real Real_fromString(const QString& s) {
     bool ok;
     double d = s.trimmed().toDouble(&ok);
     ASSERT(ok);
-    return Real_fromDouble(d);
+    return Real(d);
 }
 
 QDebug operator<<(QDebug s, const Real& r) {
