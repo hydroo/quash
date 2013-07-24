@@ -7,8 +7,8 @@ const Real Real::Zero = Real::fromDouble(0);
 const Real Real::One = Real::fromDouble(1);
 const Real Real::MinusOne = Real::fromDouble(-1);
 
-QString Real::toString(int p) const {
-    if (p == -1) {
+QString Real::toString(int p, bool r) const {
+    if (r) {
         return removeTrailingZeros(QString("%1").arg(_d, 0, 'f', p));
     } else {
         return QString("%1").arg(_d, 0, 'f', p);

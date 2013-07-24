@@ -21,7 +21,7 @@ public:
     Real square() const {return Real::fromDouble(_d*_d);}
     Real squareRoot() const {return Real::fromDouble(sqrt(_d));}
 
-    QString toString(int precision = -1) const;
+    QString toString(int precision = -1, bool removeTrailingZeros = true) const;
 
     static Real fromDouble(double d) {Real r; r._d = d; return r;}
     static Real fromString(const QString& s);
