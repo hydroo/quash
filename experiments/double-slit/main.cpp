@@ -35,12 +35,12 @@ int main(int argc, char **args) {
     Complex_set(&m.at(6, 2), Complex_div(Complex_fromString("-1-i"), Real_fromDouble(sqrt(6))));
     Complex_set(&m.at(7, 2), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
 
-    ComplexVector v(ComplexVector::fromString("[1,0,0,0,   0,0,0,0]"));
+    ComplexVector v(ComplexVector_fromString("[1,0,0,0,   0,0,0,0]"));
 
     qDebug() << "system       " << "\n" << m;
     qDebug() << "start        " << v;
-    qDebug() << "round 1      " << ComplexMatrix::mul(m, v).toString(3);
-    qDebug() << "round 2      " << ComplexMatrix::mul(m, ComplexMatrix::mul(m, v)).toString(3);
+    qDebug() << "round 1      " << ComplexVector_toString(ComplexMatrix::mul(m, v), 3);
+    qDebug() << "round 2      " << ComplexVector_toString(ComplexMatrix::mul(m, ComplexMatrix::mul(m, v)), 3);
 
     return 0;
 }

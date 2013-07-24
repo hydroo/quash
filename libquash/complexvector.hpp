@@ -8,48 +8,46 @@
 
 struct ComplexMatrix;
 
-class ComplexVector {
-public:
-    ComplexVector() : _v(nullptr), _length(0) {}
-    explicit ComplexVector(int length);
-    ComplexVector(const ComplexVector& v) {_v = nullptr; set(v);}
+struct ComplexVector {
+    ComplexVector(int length = 0);
+    ComplexVector(const ComplexVector& v);
     virtual ~ComplexVector();
 
-    ComplexVector& operator=(const ComplexVector& v) = delete;
+    //Complex* operator [](int i) {return &(_v[i]);}
+    const Complex& operator [](int i) const {return _v[i];}
 
-    ComplexVector& set(const ComplexVector& v);
-
-    Complex& at(int index) {return _v[index];}
-    const Complex& at(int index) const {return _v[index];}
-
-    ComplexVector conjugate() const;
-    bool isNormalized() const;
-    Real norm() const;
-    ComplexVector normalize() const;
-
-    QString toString(int precision = -1) const;
-
-    static ComplexVector fromString(const QString& s);
-
-    static ComplexVector add(const ComplexVector& lhs, const ComplexVector& rhs);
-    static ComplexVector sub(const ComplexVector& lhs, const ComplexVector& rhs);
-    static ComplexVector mul(const ComplexVector& lhs, const Complex& rhs);
-    static Complex innerProduct(const ComplexVector& lhs, const ComplexVector& rhs);
-    static ComplexVector tensorProduct(const ComplexVector& lhs, const ComplexVector& rhs);
-    static Real distance(const ComplexVector& lhs, const ComplexVector& rhs);
-
-    static bool isEqual(const ComplexVector& lhs, const ComplexVector& rhs, double error = 1E-9);
-
-    static ComplexVector Zero(int length);
-    static ComplexVector One(int length);
-    static ComplexVector Identity(int length, int where); // zero everwhere and one at 'where'
-
-    friend ComplexMatrix;
-
-private:
     Complex *_v;
     int _length;
 };
+
+ComplexVector* ComplexVector_init(int length = 0);
+
+ComplexVector* ComplexVector_set(ComplexVector *v, const ComplexVector& w);
+
+//inline const Complex& ComplexVector_at(const ComplexVector& v, int index) {return v._v[index];}
+inline Complex* ComplexVector_at(ComplexVector* v, int index) {return &v->_v[index];}
+
+ComplexVector ComplexVector_conjugate(const ComplexVector& v);
+bool ComplexVector_isNormalized(const ComplexVector& v);
+Real ComplexVector_norm(const ComplexVector& v);
+ComplexVector ComplexVector_normalize(const ComplexVector& v);
+
+QString ComplexVector_toString(const ComplexVector& v, int precision = -1);
+
+ComplexVector ComplexVector_fromString(const QString& s);
+
+ComplexVector ComplexVector_add(const ComplexVector& lhs, const ComplexVector& rhs);
+ComplexVector ComplexVector_sub(const ComplexVector& lhs, const ComplexVector& rhs);
+ComplexVector ComplexVector_mul(const ComplexVector& lhs, const Complex& rhs);
+Complex ComplexVector_innerProduct(const ComplexVector& lhs, const ComplexVector& rhs);
+ComplexVector ComplexVector_tensorProduct(const ComplexVector& lhs, const ComplexVector& rhs);
+Real ComplexVector_distance(const ComplexVector& lhs, const ComplexVector& rhs);
+
+bool ComplexVector_isEqual(const ComplexVector& lhs, const ComplexVector& rhs, double error = 1E-9);
+
+ComplexVector ComplexVector_Zero(int length);
+ComplexVector ComplexVector_One(int length);
+ComplexVector ComplexVector_Identity(int length, int where); // zero everwhere and one at 'where'
 
 QDebug operator<<(QDebug s, const ComplexVector& v);
 

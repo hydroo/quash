@@ -29,7 +29,7 @@ ComplexMatrix& ComplexMatrix::set(const ComplexMatrix& m) {
 ComplexVector ComplexMatrix::colAt(int col_) const {
     ComplexVector c(_height);
     for (int i = 0; i < _height; i += 1) {
-        Complex_set(&c.at(i), at(i, col_));
+        Complex_set(ComplexVector_at(&c, i), at(i, col_));
     }
     return c;
 }
@@ -37,7 +37,7 @@ ComplexVector ComplexMatrix::colAt(int col_) const {
 ComplexVector ComplexMatrix::rowAt(int row_) const {
     ComplexVector c(_width);
     for (int i = 0; i < _width; i += 1) {
-        Complex_set(&c.at(i), at(row_, i));
+        Complex_set(ComplexVector_at(&c, i), at(row_, i));
     }
     return c;
 }
@@ -107,7 +107,7 @@ QString ComplexMatrix::toString(int precision) const {
 ComplexMatrix ComplexMatrix::fromComplexColVector(const ComplexVector& v) {
     ComplexMatrix m(v._length, 1);
     for (int i = 0; i < m._height; i += 1) {
-        Complex_set(&m.at(i, 0), v.at(i));
+        Complex_set(&m.at(i, 0), v[i]);
     }
     return m;
 }
@@ -115,7 +115,7 @@ ComplexMatrix ComplexMatrix::fromComplexColVector(const ComplexVector& v) {
 ComplexMatrix ComplexMatrix::fromComplexRowVector(const ComplexVector& v) {
     ComplexMatrix m(1, v._length);
     for (int i = 0; i < m._width; i += 1) {
-        Complex_set(&m.at(0, i), v.at(i));
+        Complex_set(&m.at(0, i), v[i]);
     }
     return m;
 }
