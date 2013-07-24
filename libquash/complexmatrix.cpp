@@ -5,6 +5,14 @@
 
 #include "debug.hpp"
 
+/* *** helper { ************************************************************ */
+
+static inline int indexFromRowCol(const ComplexMatrix& m, int row_, int col_) {return row_*m._width + col_;}
+static inline int rowFromIndex(const ComplexMatrix& m, int index) {return index / m._width;}
+static inline int colFromIndex(const ComplexMatrix& m, int index) {return index % m._width;}
+
+/* *** } helper ************************************************************ */
+
 ComplexMatrix::ComplexMatrix(int height, int width) : _height(height), _width(width) {
     if (_height == 0 || _width == 0) {
         _m = nullptr;

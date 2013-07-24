@@ -16,14 +16,10 @@ struct ComplexMatrix {
     int _height, _width;
 };
 
-inline int ComplexMatrix_index(const ComplexMatrix& m, int row_, int col_) {return row_*m._width + col_;}
-inline int ComplexMatrix_row(const ComplexMatrix& m, int index) {return index / m._width;}
-inline int ComplexMatrix_col(const ComplexMatrix& m, int index) {return index % m._width;}
-
 ComplexMatrix* ComplexMatrix_set(ComplexMatrix* m, const ComplexMatrix& n);
 
-inline Complex* ComplexMatrix_at(ComplexMatrix* m, int row_, int col_) {return &(m->_m[ComplexMatrix_index(*m, row_, col_)]);}
-inline const Complex& ComplexMatrix_at(const ComplexMatrix& m, int row_, int col_) {return m._m[ComplexMatrix_index(m, row_, col_)];}
+inline Complex* ComplexMatrix_at(ComplexMatrix* m, int row_, int col_) {return &(m->_m[row_*m->_width + col_]);}
+inline const Complex& ComplexMatrix_at(const ComplexMatrix& m, int row_, int col_) {return m._m[row_*m._width + col_];}
 ComplexVector ComplexMatrix_colAt(const ComplexMatrix& m, int col_);
 ComplexVector ComplexMatrix_rowAt(const ComplexMatrix& m, int row_);
 
