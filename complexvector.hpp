@@ -36,6 +36,8 @@ public:
     static ComplexVector tensorProduct(const ComplexVector& lhs, const ComplexVector& rhs);
     static Real distance(const ComplexVector& lhs, const ComplexVector& rhs);
 
+    static bool isEqual(const ComplexVector& lhs, const ComplexVector& rhs, double error = 1E-9);
+
     static ComplexVector Zero(int length);
     static ComplexVector One(int length);
     static ComplexVector Identity(int length, int where); // zero everwhere and one at 'where'

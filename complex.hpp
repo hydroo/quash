@@ -37,6 +37,8 @@ public:
     static Complex  div(const Complex& lhs, const Complex& rhs) {return Complex::div(lhs, Complex::mul(rhs, rhs.conjugate())._r);}
     static Complex  div(const Complex& lhs, const Real& rhs) {return Complex::fromReal(Real::div(lhs._r, rhs), Real::div(lhs._i, rhs));}
 
+    static bool isEqual(const Complex& lhs, const Complex& rhs, double error = 1E-9) {return Real::isEqual(lhs._r, rhs._r, error) && Real::isEqual(lhs._i, rhs._i, error);}
+
     static const Complex Zero;
     static const Complex One;
     static const Complex I;

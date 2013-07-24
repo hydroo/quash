@@ -120,6 +120,15 @@ Real ComplexVector::distance(const ComplexVector& lhs, const ComplexVector& rhs)
     return ComplexVector::sub(lhs, rhs).norm();
 }
 
+bool ComplexVector::isEqual(const ComplexVector& lhs, const ComplexVector& rhs, double error) {
+    ASSERT(lhs._length == rhs._length);
+    bool equal = true;
+    for (int i = 0; i < lhs._length; i += 1) {
+        equal &= Complex::isEqual(lhs.at(i), rhs.at(i), error);
+    }
+    return equal;
+}
+
 ComplexVector ComplexVector::Zero(int length) {
     ComplexVector v(length);
     for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::Zero);}

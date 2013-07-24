@@ -56,6 +56,10 @@ ComplexMatrix ComplexMatrix::conjugate() const {
     return m;
 }
 
+bool ComplexMatrix::isHermitian() const {
+    return _height == _width && ComplexMatrix::isEqual(*this, this->transpose().conjugate());
+}
+
 ComplexMatrix ComplexMatrix::transpose() const {
     ComplexMatrix m(_width, _height);
     for (int i = 0; i < _width; i += 1) {
@@ -206,6 +210,17 @@ ComplexMatrix ComplexMatrix::tensorProduct(const ComplexMatrix& lhs, const Compl
         }
     }
     return m;
+}
+
+bool ComplexMatrix::isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error) {
+    ASSERT(lhs._height == rhs._height && lhs._width == rhs._width);
+    bool equal = true;
+    for (int i = 0; i < lhs._height; i += 1) {
+        for (int j = 0; j < lhs._width; j += 1) {
+            equal &= Complex::isEqual(lhs.at(i, j), rhs.at(i, j), error);
+        }
+    }
+    return equal;
 }
 
 //ComplexMatrix ComplexMatrix::Zero(int height, int width) {

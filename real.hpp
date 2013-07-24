@@ -31,7 +31,7 @@ public:
     static Real mul(const Real& lhs, const Real& rhs) {return Real::fromDouble(lhs._d * rhs._d);}
     static Real div(const Real& lhs, const Real& rhs) {return Real::fromDouble(lhs._d / rhs._d);}
 
-    static bool isEqual(const Real& lhs, const Real& rhs) {return lhs._d == rhs._d;}
+    static bool isEqual(const Real& lhs, const Real& rhs, double error = 1E-9) {return (lhs._d - rhs._d) <= error;}
     static bool isSmallerThan(const Real& lhs, const Real& rhs) {return lhs._d < rhs._d;}
     static bool isSmallerEqual(const Real& lhs, const Real& rhs) {return lhs._d <= rhs._d;}
     static bool isGreaterThan(const Real& lhs, const Real& rhs) {return lhs._d > rhs._d;}
