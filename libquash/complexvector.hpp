@@ -23,7 +23,9 @@ public:
     const Complex& at(int index) const {return _v[index];}
 
     ComplexVector conjugate() const;
+    bool isNormalized() const;
     Real norm() const;
+    ComplexVector normalize() const;
 
     QString toString(int precision = -1) const;
 

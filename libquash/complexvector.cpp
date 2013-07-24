@@ -30,8 +30,21 @@ ComplexVector ComplexVector::conjugate() const {
     return v;
 }
 
+bool ComplexVector::isNormalized() const {
+    return ComplexVector::isEqual(*this, this->normalize());
+}
+
 Real ComplexVector::norm() const {
     return ComplexVector::innerProduct(*this, *this).real().squareRoot();
+}
+
+ComplexVector ComplexVector::normalize() const {
+    Real n = norm();
+    ComplexVector v(_length);
+    for (int i = 0; i < _length; i += 1) {
+        v.at(i).set(Complex::div(at(i), n));
+    }
+    return v;
 }
 
 QString ComplexVector::toString(int p) const {
