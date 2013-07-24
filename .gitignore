@@ -4,4 +4,5 @@
 *.s
 
 /quash
-
+/libquash/libquash.a
+/libquash/libquash.so

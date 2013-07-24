@@ -1,38 +1,35 @@
 CXX = g++
-INCLUDE = -I/usr/include/qt4 \
-          -I/usr/include/qt4/Qt \
-          -I/usr/include/qt4/QtCore
+INCLUDE = \
+	-Icommon \
+	-Ilibquash \
+	-I/usr/include/qt4 \
+	-I/usr/include/qt4/Qt \
+	-I/usr/include/qt4/QtCore
 #CXXFLAGS = -O3 -Wall -Wextra -g -std=c99 $(INCLUDE)
 CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 $(INCLUDE) -DDEBUG
-LN = $(CXX)
-LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQtCore
+LD = $(CXX)
+ANY_LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQtCore -Llibquash/
+STATIC_LIBS = -lquash
+LIBS =  -Wl,-Bstatic $(STATIC_LIBS) -Wl,-Bdynamic $(ANY_LIBS)
 LFLAGS = $(LIBS)
 
 BINARY = quash
 
-HEADERS = \
-	complex.hpp \
-	complexmatrix.hpp \
-	complexvector.hpp \
-	debug.hpp \
-	misc.hpp \
-	real.hpp \
-
-SOURCES = \
-	complex.cpp \
-	complexmatrix.cpp \
-	complexvector.cpp \
-	debug.cpp \
-	main.cpp \
-	misc.cpp \
-	real.cpp
+SOURCES = main.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
 
 all: dep $(BINARY)
 
-$(BINARY): $(SOURCES) Makefile
+$(BINARY): $(SOURCES) libquash/libquash.a libquash/libquash.so
 	$(CXX) -o $(BINARY) $(SOURCES) $(CXXFLAGS) $(LFLAGS)
-	@echo ""
 
+libquash/libquash.a:
+	cd libquash && make libquash.a
+
+libquash/libquash.so:
+	cd libquash && make libquash.so
+
+.PHONY: dep
 dep: $(SOURCES)
 	$(CXX) $(CXXFLAGS) -MM $^ > .depend
 
@@ -40,5 +37,5 @@ dep: $(SOURCES)
 
 .PHONY: clean
 clean:
-	-rm -f $(BINARY) *.o *.h.gch
+	-rm -f $(BINARY) $(OBJECTS) *.h.gch .depend
 
