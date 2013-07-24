@@ -4,13 +4,9 @@
 
 #include "debug.hpp"
 
-const Complex Complex::Zero = Complex::fromReal(Real_Zero);
-const Complex Complex::One = Complex::fromReal(Real_One);
-const Complex Complex::I = Complex::fromReal(Real_Zero, Real_One);
-
-QString Complex::toString(int p) const {
-    QString r = Real_toString(_r, p);
-    QString i = Real_toString(_i, p);
+QString Complex_toString(const Complex& c, int p) {
+    QString r = Real_toString(Complex_real(c), p);
+    QString i = Real_toString(Complex_imag(c), p);
 
     if (r == "0") {
         if (i == "0") {
@@ -30,16 +26,16 @@ QString Complex::toString(int p) const {
         } else if (i == "-1") {
             return QString("%1 - i").arg(r);
         } else {
-            if (Real_isSmallerThan(imag(), Real_fromDouble(0))) {
-                return QString("%1 - %2i").arg(Real_toString(_r, p)).arg(Real_toString(Real_mul(_i, Real_MinusOne), p));
+            if (Real_isSmallerThan(Complex_imag(c), Real_fromDouble(0))) {
+                return QString("%1 - %2i").arg(r).arg(Real_toString(Real_mul(Complex_imag(c), Real_MinusOne), p));
             } else {
-                return QString("%1 + %2i").arg(Real_toString(_r, p)).arg(Real_toString(_i, p));
+                return QString("%1 + %2i").arg(r).arg(Real_toString(Complex_imag(c), p));
             }
         }
     }
 }
 
-Complex Complex::fromString(const QString& s_) {
+Complex Complex_fromString(const QString& s_) {
     QString s = s_.trimmed();
     Real r, i;
 
@@ -79,11 +75,11 @@ Complex Complex::fromString(const QString& s_) {
         Real_set(&r, Real_fromString(rneg ? "-" + l[0] : l[0]));
         Real_set(&i, sep == '+' ? Real_fromString(l[1]) : Real_mul(Real_fromString(l[1]), Real_MinusOne));
     }
-    return Complex::fromReal(r, i);
+    return Complex_fromReal(r, i);
 }
 
 QDebug operator<<(QDebug s, const Complex& c) {
-    s << c.toString();
+    s << Complex_toString(c);
     return s;
 }
 

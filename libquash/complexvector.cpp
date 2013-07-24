@@ -17,7 +17,7 @@ ComplexVector& ComplexVector::set(const ComplexVector& v) {
     _length = v._length;
     _v = new Complex[_length];
     for (int i = 0; i < _length; i += 1) {
-        at(i).set(v.at(i));
+        Complex_set(&at(i), v.at(i));
     }
     return *this;
 }
@@ -25,7 +25,7 @@ ComplexVector& ComplexVector::set(const ComplexVector& v) {
 ComplexVector ComplexVector::conjugate() const {
     ComplexVector v(_length);
     for (int i = 0; i < _length; i += 1) {
-        v.at(i).set(at(i).conjugate());
+        Complex_set(&v.at(i), Complex_conjugate(at(i)));
     }
     return v;
 }
@@ -35,14 +35,14 @@ bool ComplexVector::isNormalized() const {
 }
 
 Real ComplexVector::norm() const {
-    return Real_squareRoot(ComplexVector::innerProduct(*this, *this).real());
+    return Real_squareRoot(Complex_real(ComplexVector::innerProduct(*this, *this)));
 }
 
 ComplexVector ComplexVector::normalize() const {
     Real n = norm();
     ComplexVector v(_length);
     for (int i = 0; i < _length; i += 1) {
-        v.at(i).set(Complex::div(at(i), n));
+        Complex_set(&v.at(i), Complex_div(at(i), n));
     }
     return v;
 }
@@ -52,10 +52,10 @@ QString ComplexVector::toString(int p) const {
     QTextStream s(&ret);
     s << "[";
     for (int i = 0; i < _length-1; i += 1) {
-        s << at(i).toString(p) << ", ";
+        s << Complex_toString(at(i), p) << ", ";
     }
     if (_length-1 > 0) {
-        s << at(_length-1).toString(p);
+        s << Complex_toString(at(_length-1), p);
     }
     s << "]";
     return ret;
@@ -77,7 +77,7 @@ ComplexVector ComplexVector::fromString(const QString& s_) {
     } else {
         ComplexVector ret(l.size());
         for (int i = 0; i < l.size(); i += 1) {
-            ret.at(i).set(Complex::fromString(l[i].trimmed()));
+            Complex_set(&ret.at(i), Complex_fromString(l[i].trimmed()));
         }
         return ret;
     }
@@ -88,7 +88,7 @@ ComplexVector ComplexVector::add(const ComplexVector& lhs, const ComplexVector& 
     ASSERT(lhs._length == rhs._length);
     ComplexVector ret(lhs._length);
     for (int i = 0; i < lhs._length; i += 1) {
-        ret.at(i).set(Complex::add(lhs.at(i), rhs.at(i)));
+        Complex_set(&ret.at(i), Complex_add(lhs.at(i), rhs.at(i)));
     }
     return ret;
 }
@@ -97,7 +97,7 @@ ComplexVector ComplexVector::sub(const ComplexVector& lhs, const ComplexVector& 
     ASSERT(lhs._length == rhs._length);
     ComplexVector ret(lhs._length);
     for (int i = 0; i < lhs._length; i += 1) {
-        ret.at(i).set(Complex::sub(lhs.at(i), rhs.at(i)));
+        Complex_set(&ret.at(i), Complex_sub(lhs.at(i), rhs.at(i)));
     }
     return ret;
 }
@@ -105,16 +105,16 @@ ComplexVector ComplexVector::sub(const ComplexVector& lhs, const ComplexVector& 
 ComplexVector ComplexVector::mul(const ComplexVector& lhs, const Complex& rhs) {
     ComplexVector ret(lhs._length);
     for (int i = 0; i < lhs._length; i += 1) {
-        ret.at(i).set(Complex::mul(lhs.at(i), rhs));
+        Complex_set(&ret.at(i), Complex_mul(lhs.at(i), rhs));
     }
     return ret;
 }
 
 Complex ComplexVector::innerProduct(const ComplexVector& lhs, const ComplexVector& rhs) {
     ASSERT(lhs._length == rhs._length);
-    Complex ret(Complex::Zero);
+    Complex ret(Complex_Zero);
     for (int i = 0; i < lhs._length; i += 1) {
-        ret.set(Complex::add(ret, Complex::mul(lhs.at(i).conjugate(), rhs.at(i))));
+        Complex_set(&ret, Complex_add(ret, Complex_mul(Complex_conjugate(lhs.at(i)), rhs.at(i))));
     }
     return ret;
 }
@@ -123,7 +123,7 @@ ComplexVector ComplexVector::tensorProduct(const ComplexVector& lhs, const Compl
     ComplexVector ret(lhs._length * rhs._length);
     for (int i = 0; i < lhs._length; i += 1) {
         for (int j = 0; j < rhs._length; j += 1) {
-            ret.at(i*rhs._length + j).set(Complex::mul(lhs.at(i), rhs.at(j)));
+            Complex_set(&ret.at(i*rhs._length + j), Complex_mul(lhs.at(i), rhs.at(j)));
         }
     }
     return ret;
@@ -137,27 +137,27 @@ bool ComplexVector::isEqual(const ComplexVector& lhs, const ComplexVector& rhs, 
     ASSERT(lhs._length == rhs._length);
     bool equal = true;
     for (int i = 0; i < lhs._length; i += 1) {
-        equal &= Complex::isEqual(lhs.at(i), rhs.at(i), error);
+        equal &= Complex_isEqual(lhs.at(i), rhs.at(i), error);
     }
     return equal;
 }
 
 ComplexVector ComplexVector::Zero(int length) {
     ComplexVector v(length);
-    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::Zero);}
+    for (int i = 0; i < length; i += 1) {Complex_set(&v.at(i), Complex_Zero);}
     return v;
 }
 
 ComplexVector ComplexVector::One(int length) {
     ComplexVector v(length);
-    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::One);}
+    for (int i = 0; i < length; i += 1) {Complex_set(&v.at(i), Complex_One);}
     return v;
 }
 
 ComplexVector ComplexVector::Identity(int length, int where) {
     ComplexVector v(length);
-    for (int i = 0; i < length; i += 1) {v.at(i).set(Complex::Zero);}
-    v.at(where).set(Complex::One);
+    for (int i = 0; i < length; i += 1) {Complex_set(&v.at(i), Complex_Zero);}
+    Complex_set(&v.at(where), Complex_One);
     return v;
 }
 
