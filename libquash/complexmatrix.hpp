@@ -7,56 +7,49 @@
 #include "complex.hpp"
 #include "complexvector.hpp"
 
-class ComplexMatrix {
-public:
-    ComplexMatrix() : _m(nullptr), _height(0), _width(0) {}
-    explicit ComplexMatrix(int height, int width);
-    ComplexMatrix(const ComplexMatrix& m) {_m = nullptr; set(m);}
+struct ComplexMatrix {
+    ComplexMatrix(int height = 0, int width = 0);
+    ComplexMatrix(const ComplexMatrix& m);
     virtual ~ComplexMatrix();
 
-    ComplexMatrix& operator=(const ComplexMatrix& m) = delete;
-
-    ComplexMatrix& set(const ComplexMatrix& m);
-
-    Complex& at(int row_, int col_) {return _m[index(row_, col_)];}
-    const Complex& at(int row_, int col_) const {return _m[index(row_, col_)];}
-    ComplexVector colAt(int col_) const;
-    ComplexVector rowAt(int row_) const;
-
-    ComplexMatrix adjoint() const;
-    ComplexMatrix conjugate() const;
-    bool isHermitian() const;
-    bool isUnitary() const;
-    ComplexMatrix transpose() const;
-
-    QString toString(int precision = -1) const;
-
-    static ComplexMatrix fromComplexColVector(const ComplexVector& v);
-    static ComplexMatrix fromComplexRowVector(const ComplexVector& v);
-    static ComplexMatrix fromString(const QString& s);
-
-    static ComplexMatrix add(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
-    static ComplexMatrix sub(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
-    static ComplexMatrix mul(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
-    static ComplexMatrix mul(const ComplexMatrix& lhs, const Complex& rhs);
-    static ComplexVector mul(const ComplexMatrix& lhs, const ComplexVector& rhs);
-    static ComplexVector mul(const ComplexVector& lhs, const ComplexMatrix& rhs);
-    static ComplexMatrix tensorProduct(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
-
-    static bool isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error = 1E-9);
-
-    static ComplexMatrix Identity(int height);
-
-private:
-
-    int index(int row_, int col_) const {return row_*_width + col_;}
-    int row(int index) const {return index / _width;}
-    int col(int index) const {return index % _width;}
-
-private:
     Complex *_m;
     int _height, _width;
 };
+
+inline int ComplexMatrix_index(const ComplexMatrix& m, int row_, int col_) {return row_*m._width + col_;}
+inline int ComplexMatrix_row(const ComplexMatrix& m, int index) {return index / m._width;}
+inline int ComplexMatrix_col(const ComplexMatrix& m, int index) {return index % m._width;}
+
+ComplexMatrix* ComplexMatrix_set(ComplexMatrix* m, const ComplexMatrix& n);
+
+inline Complex* ComplexMatrix_at(ComplexMatrix* m, int row_, int col_) {return &(m->_m[ComplexMatrix_index(*m, row_, col_)]);}
+inline const Complex& ComplexMatrix_at(const ComplexMatrix& m, int row_, int col_) {return m._m[ComplexMatrix_index(m, row_, col_)];}
+ComplexVector ComplexMatrix_colAt(const ComplexMatrix& m, int col_);
+ComplexVector ComplexMatrix_rowAt(const ComplexMatrix& m, int row_);
+
+ComplexMatrix ComplexMatrix_adjoint(const ComplexMatrix& m);
+ComplexMatrix ComplexMatrix_conjugate(const ComplexMatrix& m);
+bool ComplexMatrix_isHermitian(const ComplexMatrix& m);
+bool ComplexMatrix_isUnitary(const ComplexMatrix& m);
+ComplexMatrix ComplexMatrix_transpose(const ComplexMatrix& m);
+
+QString ComplexMatrix_toString(const ComplexMatrix& m, int precision = -1);
+
+ComplexMatrix ComplexMatrix_fromComplexColVector(const ComplexVector& v);
+ComplexMatrix ComplexMatrix_fromComplexRowVector(const ComplexVector& v);
+ComplexMatrix ComplexMatrix_fromString(const QString& s);
+
+ComplexMatrix ComplexMatrix_add(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
+ComplexMatrix ComplexMatrix_sub(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
+ComplexMatrix ComplexMatrix_mul(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
+ComplexMatrix ComplexMatrix_mul(const ComplexMatrix& lhs, const Complex& rhs);
+ComplexVector ComplexMatrix_mul(const ComplexMatrix& lhs, const ComplexVector& rhs);
+ComplexVector ComplexMatrix_mul(const ComplexVector& lhs, const ComplexMatrix& rhs);
+ComplexMatrix ComplexMatrix_tensorProduct(const ComplexMatrix& lhs, const ComplexMatrix& rhs);
+
+bool ComplexMatrix_isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error = 1E-9);
+
+ComplexMatrix ComplexMatrix_Identity(int height);
 
 QDebug operator<<(QDebug s, const ComplexMatrix& v);
 

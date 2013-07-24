@@ -6,83 +6,92 @@
 #include "debug.hpp"
 
 ComplexMatrix::ComplexMatrix(int height, int width) : _height(height), _width(width) {
-    _m = new Complex[_height*_width];
+    if (_height == 0 || _width == 0) {
+        _m = nullptr;
+    } else {
+        _m = new Complex[_height*_width];
+    }
+}
+
+ComplexMatrix::ComplexMatrix(const ComplexMatrix& m) {
+    _m = nullptr;
+    ComplexMatrix_set(this, m);
 }
 
 ComplexMatrix::~ComplexMatrix() {
     delete[] _m;
 }
 
-ComplexMatrix& ComplexMatrix::set(const ComplexMatrix& m) {
-    delete[] _m;
-    _height = m._height;
-    _width = m._width;
-    _m = new Complex[_height*_width];
-    for (int i = 0; i < _height; i += 1) {
-        for (int j = 0; j < _width; j += 1) {
-            Complex_set(&at(i, j), m.at(i, j));
-        }
-    }
-    return *this;
-}
-
-ComplexVector ComplexMatrix::colAt(int col_) const {
-    ComplexVector c(_height);
-    for (int i = 0; i < _height; i += 1) {
-        Complex_set(ComplexVector_at(&c, i), at(i, col_));
-    }
-    return c;
-}
-
-ComplexVector ComplexMatrix::rowAt(int row_) const {
-    ComplexVector c(_width);
-    for (int i = 0; i < _width; i += 1) {
-        Complex_set(ComplexVector_at(&c, i), at(row_, i));
-    }
-    return c;
-}
-
-ComplexMatrix ComplexMatrix::adjoint() const {
-    return conjugate().transpose();
-}
-
-ComplexMatrix ComplexMatrix::conjugate() const {
-    ComplexMatrix m(_height, _width);
-    for (int i = 0; i < _height; i += 1) {
-        for (int j = 0; j < _width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_conjugate(at(i, j)));
+ComplexMatrix* ComplexMatrix_set(ComplexMatrix* m, const ComplexMatrix& n) {
+    delete[] m->_m;
+    m->_height = n._height;
+    m->_width = n._width;
+    m->_m = new Complex[m->_height*m->_width];
+    for (int i = 0; i < m->_height; i += 1) {
+        for (int j = 0; j < m->_width; j += 1) {
+            Complex_set(ComplexMatrix_at(m, i, j), ComplexMatrix_at(n, i,j));
         }
     }
     return m;
 }
 
-bool ComplexMatrix::isHermitian() const {
-    return _height == _width && ComplexMatrix::isEqual(*this, this->transpose().conjugate());
+ComplexVector ComplexMatrix_colAt(const ComplexMatrix& m, int col_) {
+    ComplexVector c(m._height);
+    for (int i = 0; i < m._height; i += 1) {
+        Complex_set(ComplexVector_at(&c, i), ComplexMatrix_at(m, i, col_));
+    }
+    return c;
 }
 
-bool ComplexMatrix::isUnitary() const {
-    return _height == _width && ComplexMatrix::isEqual(ComplexMatrix::Identity(_height), ComplexMatrix::mul(*this, this->transpose().conjugate()));
+ComplexVector ComplexMatrix_rowAt(const ComplexMatrix& m, int row_) {
+    ComplexVector c(m._width);
+    for (int i = 0; i < m._width; i += 1) {
+        Complex_set(ComplexVector_at(&c, i), ComplexMatrix_at(m, row_, i));
+    }
+    return c;
 }
 
-ComplexMatrix ComplexMatrix::transpose() const {
-    ComplexMatrix m(_width, _height);
-    for (int i = 0; i < _width; i += 1) {
-        for (int j = 0; j < _height; j += 1) {
-            Complex_set(&m.at(i, j), at(j, i));
+ComplexMatrix ComplexMatrix_adjoint(const ComplexMatrix& m) {
+    return ComplexMatrix_transpose(ComplexMatrix_conjugate(m));
+}
+
+ComplexMatrix ComplexMatrix_conjugate(const ComplexMatrix& m) {
+    ComplexMatrix n(m._height, m._width);
+    for (int i = 0; i < n._height; i += 1) {
+        for (int j = 0; j < n._width; j += 1) {
+            Complex_set(ComplexMatrix_at(&n, i, j), Complex_conjugate(ComplexMatrix_at(m, i, j)));
         }
     }
-    return m; 
+    return n;
 }
 
-QString ComplexMatrix::toString(int precision) const {
+bool ComplexMatrix_isHermitian(const ComplexMatrix& m) {
+    return ComplexMatrix_isEqual(m, ComplexMatrix_adjoint(m));
+}
 
-    QString s[_height][_width];
-    int maxLen[_width];
-    for (int i = 0; i < _width; i += 1) {maxLen[i] = 0;}
+bool ComplexMatrix_isUnitary(const ComplexMatrix& m) {
+    return ComplexMatrix_isEqual(ComplexMatrix_Identity(m._height), ComplexMatrix_mul(m, ComplexMatrix_adjoint(m)));
+}
 
-    for (int i = 0; i < _height; i += 1) {
-        for (int j = 0; j < _width; j += 1) {
-            s[i][j] = Complex_toString(at(i, j), precision);
+ComplexMatrix ComplexMatrix_transpose(const ComplexMatrix& m) {
+    ComplexMatrix n(m._width, m._height);
+    for (int i = 0; i < n._width; i += 1) {
+        for (int j = 0; j < n._height; j += 1) {
+            Complex_set(ComplexMatrix_at(&n, i, j), ComplexMatrix_at(m, j, i));
+        }
+    }
+    return n; 
+}
+
+QString ComplexMatrix_toString(const ComplexMatrix& m, int precision) {
+
+    QString s[m._height][m._width];
+    int maxLen[m._width];
+    for (int i = 0; i < m._width; i += 1) {maxLen[i] = 0;}
+
+    for (int i = 0; i < m._height; i += 1) {
+        for (int j = 0; j < m._width; j += 1) {
+            s[i][j] = Complex_toString(ComplexMatrix_at(m, i, j), precision);
             maxLen[j] = qMax(maxLen[j], s[i][j].size());
         }
     }
@@ -90,37 +99,37 @@ QString ComplexMatrix::toString(int precision) const {
     QString ret;
     QTextStream ss(&ret);
 
-    for (int i = 0; i < _height; i += 1) {
+    for (int i = 0; i < m._height; i += 1) {
         ss << "[";
-        for (int j = 0; j < _width; j += 1) {
+        for (int j = 0; j < m._width; j += 1) {
             int pad = maxLen[j] - s[i][j].size();
             for (int k = 0; k < pad; k += 1) {ss << " ";}
             ss << s[i][j];
-            if (j < _width - 1) { ss << ", "; }
+            if (j < m._width - 1) { ss << ", "; }
         }
         ss << "]";
-        if (i < _height-1) {ss << "\n";}
+        if (i < m._height-1) {ss << "\n";}
     }
     return ret;
 }
 
-ComplexMatrix ComplexMatrix::fromComplexColVector(const ComplexVector& v) {
+ComplexMatrix ComplexMatrix_fromComplexColVector(const ComplexVector& v) {
     ComplexMatrix m(v._length, 1);
     for (int i = 0; i < m._height; i += 1) {
-        Complex_set(&m.at(i, 0), v[i]);
+        Complex_set(ComplexMatrix_at(&m, i, 0), v[i]);
     }
     return m;
 }
 
-ComplexMatrix ComplexMatrix::fromComplexRowVector(const ComplexVector& v) {
+ComplexMatrix ComplexMatrix_fromComplexRowVector(const ComplexVector& v) {
     ComplexMatrix m(1, v._length);
     for (int i = 0; i < m._width; i += 1) {
-        Complex_set(&m.at(0, i), v[i]);
+        Complex_set(ComplexMatrix_at(&m, 0, i), v[i]);
     }
     return m;
 }
 
-ComplexMatrix ComplexMatrix::fromString(const QString& s_) {
+ComplexMatrix ComplexMatrix_fromString(const QString& s_) {
     QString s = s_.trimmed();
     int width, height = s.count('[');
 
@@ -141,74 +150,74 @@ ComplexMatrix ComplexMatrix::fromString(const QString& s_) {
         ASSERT(width == cells.size());
 
         for (int j = 0; j < width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_fromString(cells[j].trimmed()));
+            Complex_set(ComplexMatrix_at(&m, i, j), Complex_fromString(cells[j].trimmed()));
         }
     }
 
     return m;
 }
 
-ComplexMatrix ComplexMatrix::add(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
+ComplexMatrix ComplexMatrix_add(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
     ASSERT(lhs._height == rhs._height && lhs._width == rhs._width);
     ComplexMatrix m(lhs._height, lhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < lhs._width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_add(lhs.at(i, j), rhs.at(i, j)));
+            Complex_set(ComplexMatrix_at(&m, i, j), Complex_add(ComplexMatrix_at(lhs, i, j), ComplexMatrix_at(rhs, i, j)));
         }
     }
     return m;
 }
 
-ComplexMatrix ComplexMatrix::sub(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
+ComplexMatrix ComplexMatrix_sub(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
     ASSERT(lhs._height == rhs._height && lhs._width == rhs._width);
     ComplexMatrix m(lhs._height, lhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < lhs._width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_sub(lhs.at(i, j), rhs.at(i, j)));
+            Complex_set(ComplexMatrix_at(&m, i, j), Complex_sub(ComplexMatrix_at(lhs, i, j), ComplexMatrix_at(rhs, i, j)));
         }
     }
     return m;
 }
 
-ComplexMatrix ComplexMatrix::mul(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
+ComplexMatrix ComplexMatrix_mul(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
     ASSERT(lhs._width == rhs._height);
     ComplexMatrix m(lhs._height, rhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < rhs._width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_Zero);
+            Complex_set(ComplexMatrix_at(&m, i, j), Complex_Zero);
             for (int k = 0; k < lhs._width; k += 1) {
-                Complex_set(&m.at(i, j), Complex_add(m.at(i, j), Complex_mul(lhs.at(i, k), rhs.at(k, j))));
+                Complex_set(ComplexMatrix_at(&m, i, j), Complex_add(ComplexMatrix_at(m, i, j), Complex_mul(ComplexMatrix_at(lhs, i, k), ComplexMatrix_at(rhs, k, j))));
             }
         }
     }
     return m;
 }
 
-ComplexMatrix ComplexMatrix::mul(const ComplexMatrix& lhs, const Complex& rhs) {
+ComplexMatrix ComplexMatrix_mul(const ComplexMatrix& lhs, const Complex& rhs) {
     ComplexMatrix m(lhs._height, lhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < lhs._width; j += 1) {
-            Complex_set(&m.at(i, j), Complex_mul(lhs.at(i, j), rhs));
+            Complex_set(ComplexMatrix_at(&m, i, j), Complex_mul(ComplexMatrix_at(lhs, i, j), rhs));
         }
     }
     return m;
 }
 
-ComplexVector ComplexMatrix::mul(const ComplexMatrix& lhs, const ComplexVector& rhs) {
-    return ComplexMatrix::mul(lhs, ComplexMatrix::fromComplexColVector(rhs)).colAt(0);
+ComplexVector ComplexMatrix_mul(const ComplexMatrix& lhs, const ComplexVector& rhs) {
+    return ComplexMatrix_colAt(ComplexMatrix_mul(lhs, ComplexMatrix_fromComplexColVector(rhs)), 0);
 }
 
-ComplexVector ComplexMatrix::mul(const ComplexVector& lhs, const ComplexMatrix& rhs) {
-    return ComplexMatrix::mul(ComplexMatrix::fromComplexRowVector(lhs), rhs).rowAt(0);
+ComplexVector ComplexMatrix_mul(const ComplexVector& lhs, const ComplexMatrix& rhs) {
+    return ComplexMatrix_rowAt(ComplexMatrix_mul(ComplexMatrix_fromComplexRowVector(lhs), rhs), 0);
 }
 
-ComplexMatrix ComplexMatrix::tensorProduct(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
+ComplexMatrix ComplexMatrix_tensorProduct(const ComplexMatrix& lhs, const ComplexMatrix& rhs) {
     ComplexMatrix m(lhs._height*rhs._height, lhs._width*rhs._width);
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < lhs._width; j += 1) {
             for (int k = 0; k < rhs._height; k += 1) {
                 for (int l = 0; l < rhs._width; l += 1) {
-                    Complex_set(&m.at(i*lhs._height + k, j*lhs._width + l), Complex_mul(lhs.at(i, j), rhs.at(k, l)));
+                    Complex_set(ComplexMatrix_at(&m, i*lhs._height + k, j*lhs._width + l), Complex_mul(ComplexMatrix_at(lhs, i, j), ComplexMatrix_at(rhs, k, l)));
                 }
             }
         }
@@ -216,32 +225,32 @@ ComplexMatrix ComplexMatrix::tensorProduct(const ComplexMatrix& lhs, const Compl
     return m;
 }
 
-bool ComplexMatrix::isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error) {
+bool ComplexMatrix_isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error) {
     ASSERT(lhs._height == rhs._height && lhs._width == rhs._width);
     bool equal = true;
     for (int i = 0; i < lhs._height; i += 1) {
         for (int j = 0; j < lhs._width; j += 1) {
-            equal &= Complex_isEqual(lhs.at(i, j), rhs.at(i, j), error);
+            equal &= Complex_isEqual(ComplexMatrix_at(lhs, i, j), ComplexMatrix_at(rhs, i, j), error);
         }
     }
     return equal;
 }
 
-ComplexMatrix ComplexMatrix::Identity(int height) {
+ComplexMatrix ComplexMatrix_Identity(int height) {
     ComplexMatrix m(height, height);
     for (int i = 0; i < height; i += 1) {
         for (int j = 0; j < height; j += 1) {
             if (i == j) {
-                Complex_set(&m.at(i, j), Complex_One);
+                Complex_set(ComplexMatrix_at(&m, i, j), Complex_One);
             } else {
-                Complex_set(&m.at(i, j), Complex_Zero);
+                Complex_set(ComplexMatrix_at(&m, i, j), Complex_Zero);
             }
         }
     }
     return m;
 }
 
-QDebug operator<<(QDebug s, const ComplexMatrix& v) {
-    s << v.toString();
+QDebug operator<<(QDebug s, const ComplexMatrix& m) {
+    s << ComplexMatrix_toString(m);
     return s;
 }

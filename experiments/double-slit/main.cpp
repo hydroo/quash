@@ -14,7 +14,7 @@ int main(int argc, char **args) {
 
     (void) argc; (void) args;
 
-    ComplexMatrix m(ComplexMatrix::fromString(
+    ComplexMatrix m(ComplexMatrix_fromString(
             "[0, 0, 0, 0,   0, 0, 0, 0]"
             "[0, 0, 0, 0,   0, 0, 0, 0]"
             "[0, 0, 0, 0,   0, 0, 0, 0]"
@@ -24,23 +24,23 @@ int main(int argc, char **args) {
             "[0, 0, 0, 0,   0, 1, 0, 0]"
             "[0, 0, 0, 0,   0, 0, 1, 0]"
             "[0, 0, 0, 0,   0, 0, 0, 1]"));
-    Complex_set(&m.at(1, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
-    Complex_set(&m.at(2, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
+    Complex_set(ComplexMatrix_at(&m, 1, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
+    Complex_set(ComplexMatrix_at(&m, 2, 0), Complex_fromReal(Real_fromDouble(1 / sqrt(2))));
 
-    Complex_set(&m.at(3, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(&m.at(4, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(&m.at(5, 1), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 3, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 4, 1), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 5, 1), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
 
-    Complex_set(&m.at(5, 2), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
-    Complex_set(&m.at(6, 2), Complex_div(Complex_fromString("-1-i"), Real_fromDouble(sqrt(6))));
-    Complex_set(&m.at(7, 2), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 5, 2), Complex_div(Complex_fromString("-1+i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 6, 2), Complex_div(Complex_fromString("-1-i"), Real_fromDouble(sqrt(6))));
+    Complex_set(ComplexMatrix_at(&m, 7, 2), Complex_div(Complex_fromString(" 1-i"), Real_fromDouble(sqrt(6))));
 
     ComplexVector v(ComplexVector_fromString("[1,0,0,0,   0,0,0,0]"));
 
     qDebug() << "system       " << "\n" << m;
     qDebug() << "start        " << v;
-    qDebug() << "round 1      " << ComplexVector_toString(ComplexMatrix::mul(m, v), 3);
-    qDebug() << "round 2      " << ComplexVector_toString(ComplexMatrix::mul(m, ComplexMatrix::mul(m, v)), 3);
+    qDebug() << "round 1      " << ComplexVector_toString(ComplexMatrix_mul(m, v), 3);
+    qDebug() << "round 2      " << ComplexVector_toString(ComplexMatrix_mul(m, ComplexMatrix_mul(m, v)), 3);
 
     return 0;
 }
