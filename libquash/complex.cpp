@@ -4,13 +4,13 @@
 
 #include "debug.hpp"
 
-const Complex Complex::Zero = Complex::fromReal(Real::Zero);
-const Complex Complex::One = Complex::fromReal(Real::One);
-const Complex Complex::I = Complex::fromReal(Real::Zero, Real::One);
+const Complex Complex::Zero = Complex::fromReal(Real_Zero);
+const Complex Complex::One = Complex::fromReal(Real_One);
+const Complex Complex::I = Complex::fromReal(Real_Zero, Real_One);
 
 QString Complex::toString(int p) const {
-    QString r = _r.toString(p);
-    QString i = _i.toString(p);
+    QString r = Real_toString(_r, p);
+    QString i = Real_toString(_i, p);
 
     if (r == "0") {
         if (i == "0") {
@@ -30,10 +30,10 @@ QString Complex::toString(int p) const {
         } else if (i == "-1") {
             return QString("%1 - i").arg(r);
         } else {
-            if (Real::isSmallerThan(imag(), Real::fromDouble(0))) {
-                return QString("%1 - %2i").arg(_r.toString(p)).arg(Real::mul(_i, Real::MinusOne).toString(p));
+            if (Real_isSmallerThan(imag(), Real_fromDouble(0))) {
+                return QString("%1 - %2i").arg(Real_toString(_r, p)).arg(Real_toString(Real_mul(_i, Real_MinusOne), p));
             } else {
-                return QString("%1 + %2i").arg(_r.toString(p)).arg(_i.toString(p));
+                return QString("%1 + %2i").arg(Real_toString(_r, p)).arg(Real_toString(_i, p));
             }
         }
     }
@@ -49,8 +49,8 @@ Complex Complex::fromString(const QString& s_) {
         } else {
             ASSERT(s.contains('-') == false && s.contains('+') == false);
         }
-        r.set(Real::fromString(s));
-        i.set(Real::Zero);
+        Real_set(&r, Real_fromString(s));
+        Real_set(&i, Real_Zero);
     } else {
         if (s.startsWith('-')) {
             if (s.indexOf('-', 1) == -1 && s.indexOf('+', 1) == -1) { // -#i
@@ -76,8 +76,8 @@ Complex Complex::fromString(const QString& s_) {
         l[1] = l[1].remove('i').trimmed();
         if (l[1].isEmpty()) {l[1] = "1";}
 
-        r.set(Real::fromString(rneg ? "-" + l[0] : l[0]));
-        i.set(sep == '+' ? Real::fromString(l[1]) : Real::mul(Real::fromString(l[1]), Real::MinusOne));
+        Real_set(&r, Real_fromString(rneg ? "-" + l[0] : l[0]));
+        Real_set(&i, sep == '+' ? Real_fromString(l[1]) : Real_mul(Real_fromString(l[1]), Real_MinusOne));
     }
     return Complex::fromReal(r, i);
 }

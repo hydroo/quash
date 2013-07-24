@@ -35,7 +35,7 @@ bool ComplexVector::isNormalized() const {
 }
 
 Real ComplexVector::norm() const {
-    return ComplexVector::innerProduct(*this, *this).real().squareRoot();
+    return Real_squareRoot(ComplexVector::innerProduct(*this, *this).real());
 }
 
 ComplexVector ComplexVector::normalize() const {
