@@ -8,3 +8,7 @@ State State_probabilities(const State& t) {
     return s;
 }
 
+Complex State_transitionAmpltitude(const State& fromKet, const State& toKet) {
+    return ComplexVector_innerProduct(fromKet, toKet);
+}
+

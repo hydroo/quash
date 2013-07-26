@@ -4,6 +4,7 @@
 *.s
 
 /tests/double-slit/double-slit
+/tests/transition-amplitude/transition-amplitude
 /quash
 /libquash/libquash.a
 /libquash/libquash.so
