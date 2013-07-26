@@ -35,9 +35,9 @@ inline bool Real_isSmallerEqual(const Real& lhs, const Real& rhs) {return lhs._d
 inline bool Real_isGreaterThan(const Real& lhs, const Real& rhs) {return lhs._d > rhs._d;}
 inline bool Real_isGreaterEqual(const Real& lhs, const Real& rhs) {return lhs._d >= rhs._d;}
 
-const Real Real_Zero = Real(0);
 const Real Real_One = Real(1);
 const Real Real_MinusOne = Real(-1);
+const Real Real_Zero = Real(0);
 
 QDebug operator<<(QDebug s, const Real& r);
 

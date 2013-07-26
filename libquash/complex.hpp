@@ -40,10 +40,10 @@ inline Complex Complex_div(const Complex& lhs, const Complex& rhs) {return Compl
 
 inline bool Complex_isEqual(const Complex& lhs, const Complex& rhs, double error = 1E-9) {return Real_isEqual(lhs._r, rhs._r, error) && Real_isEqual(lhs._i, rhs._i, error);}
 
-const Complex Complex_Zero = Complex(Real_Zero);
-const Complex Complex_One = Complex(Real_One);
 const Complex Complex_I = Complex(Real_Zero, Real_One);
 const Complex Complex_MinusOne = Complex(Real_MinusOne);
+const Complex Complex_One = Complex(Real_One);
+const Complex Complex_Zero = Complex(Real_Zero);
 
 QDebug operator<<(QDebug s, const Complex& c);
 
