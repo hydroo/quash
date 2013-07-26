@@ -8,7 +8,7 @@ INCLUDE = \
 #CXXFLAGS = -O3 -Wall -Wextra -g -std=c99 $(INCLUDE)
 CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 -fPIC $(INCLUDE) -DDEBUG
 LD = $(CXX)
-ANY_LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQt5Core
+ANY_LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQt5Core -lstdc++
 STATIC_LIBS = -Llibquash/ -lquash
 LIBS =  -Wl,-Bstatic $(STATIC_LIBS) -Wl,-Bdynamic $(ANY_LIBS)
 LFLAGS = $(LIBS)
