@@ -3,7 +3,7 @@
 .*
 *.s
 
-/experiments/double-slit/double-slit
+/tests/double-slit/double-slit
 /quash
 /libquash/libquash.a
 /libquash/libquash.so
