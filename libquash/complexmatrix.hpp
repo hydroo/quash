@@ -15,6 +15,8 @@ struct ComplexMatrix {
     Complex* at(int row, int col) {return &(_m[row*_width + col]);}
     const Complex& at(int row, int col) const {return _m[row*_width + col];}
 
+    Complex& operator=(const Complex&) = delete;
+
     Complex *_m;
     int _height, _width;
 };

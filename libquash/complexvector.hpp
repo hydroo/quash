@@ -16,6 +16,8 @@ struct ComplexVector {
     Complex* at(int i) {return &_v[i];}
     const Complex& at(int i) const {return _v[i];}
 
+    Complex& operator=(const Complex&) = delete;
+
     Complex *_v;
     int _length;
 };

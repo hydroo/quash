@@ -14,6 +14,8 @@ struct Complex {
     explicit Complex(const Real& r, const Real& i) : _r(r), _i(i) {}
     Complex(const Complex& c) : _r(c._r), _i(c._i) {}
 
+    Complex& operator=(const Complex&) = delete;
+
     Real _r, _i;
 };
 
