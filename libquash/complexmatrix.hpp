@@ -12,14 +12,15 @@ struct ComplexMatrix {
     ComplexMatrix(const ComplexMatrix& m);
     virtual ~ComplexMatrix();
 
+    Complex* at(int row, int col) {return &(_m[row*_width + col]);}
+    const Complex& at(int row, int col) const {return _m[row*_width + col];}
+
     Complex *_m;
     int _height, _width;
 };
 
 ComplexMatrix* ComplexMatrix_set(ComplexMatrix* m, const ComplexMatrix& n);
 
-inline Complex* ComplexMatrix_at(ComplexMatrix* m, int row_, int col_) {return &(m->_m[row_*m->_width + col_]);}
-inline const Complex& ComplexMatrix_at(const ComplexMatrix& m, int row_, int col_) {return m._m[row_*m._width + col_];}
 ComplexVector ComplexMatrix_colAt(const ComplexMatrix& m, int col_);
 ComplexVector ComplexMatrix_rowAt(const ComplexMatrix& m, int row_);
 

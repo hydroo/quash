@@ -13,8 +13,8 @@ struct ComplexVector {
     ComplexVector(const ComplexVector& v);
     virtual ~ComplexVector();
 
-    //Complex* operator [](int i) {return &(_v[i]);}
-    const Complex& operator [](int i) const {return _v[i];}
+    Complex* at(int i) {return &_v[i];}
+    const Complex& at(int i) const {return _v[i];}
 
     Complex *_v;
     int _length;
@@ -23,9 +23,6 @@ struct ComplexVector {
 ComplexVector* ComplexVector_init(int length = 0);
 
 ComplexVector* ComplexVector_set(ComplexVector *v, const ComplexVector& w);
-
-//inline const Complex& ComplexVector_at(const ComplexVector& v, int index) {return v._v[index];}
-inline Complex* ComplexVector_at(ComplexVector* v, int index) {return &v->_v[index];}
 
 ComplexVector ComplexVector_conjugate(const ComplexVector& v);
 bool ComplexVector_isNormalized(const ComplexVector& v);
