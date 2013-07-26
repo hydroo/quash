@@ -123,7 +123,7 @@ Complex ComplexVector_innerProduct(const ComplexVector& lhs, const ComplexVector
     ASSERT(lhs._length == rhs._length);
     Complex ret(Complex_Zero);
     for (int i = 0; i < lhs._length; i += 1) {
-        Complex_set(&ret, Complex_add(ret, Complex_mul(Complex_conjugate(lhs.at(i)), rhs.at(i))));
+        Complex_set(&ret, Complex_add(ret, Complex_mul(lhs.at(i), Complex_conjugate(rhs.at(i)))));
     }
     return ret;
 }
