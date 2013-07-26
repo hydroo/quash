@@ -3,6 +3,7 @@
 .*
 *.s
 
+/tests/deutsch-algorithm/deutsch-algorithm
 /tests/double-slit/double-slit
 /tests/transition-amplitude/transition-amplitude
 /quash
