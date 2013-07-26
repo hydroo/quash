@@ -49,6 +49,7 @@ ComplexMatrix ComplexMatrix_tensorProduct(const ComplexMatrix& lhs, const Comple
 bool ComplexMatrix_isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, double error = 1E-9);
 
 ComplexMatrix ComplexMatrix_Identity(int height);
+ComplexMatrix ComplexMatrix_Zero(int height);
 
 const ComplexMatrix ComplexMatrix_Hadamard = ComplexMatrix_fromString(
         "[0.7071067811865475,  0.7071067811865475]"

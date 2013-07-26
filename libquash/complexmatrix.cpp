@@ -245,14 +245,22 @@ bool ComplexMatrix_isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, d
 }
 
 ComplexMatrix ComplexMatrix_Identity(int height) {
-    ComplexMatrix m(height, height);
+    ComplexMatrix m(ComplexMatrix_Zero(height));
     for (int i = 0; i < height; i += 1) {
         for (int j = 0; j < height; j += 1) {
             if (i == j) {
                 Complex_set(m.at(i, j), Complex_One);
-            } else {
-                Complex_set(m.at(i, j), Complex_Zero);
             }
+        }
+    }
+    return m;
+}
+
+ComplexMatrix ComplexMatrix_Zero(int height) {
+    ComplexMatrix m(height, height);
+    for (int i = 0; i < height; i += 1) {
+        for (int j = 0; j < height; j += 1) {
+            Complex_set(m.at(i, j), Complex_Zero);
         }
     }
     return m;
