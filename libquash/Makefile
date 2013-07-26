@@ -21,6 +21,7 @@ HEADERS = \
 	complexmatrix.hpp \
 	complexvector.hpp \
 	real.hpp \
+	state.hpp
 
 SOURCES = \
 	../common/debug.cpp \
@@ -28,7 +29,8 @@ SOURCES = \
 	complex.cpp \
 	complexmatrix.cpp \
 	complexvector.cpp \
-	real.cpp
+	real.cpp \
+	state.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
