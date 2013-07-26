@@ -1,15 +1,15 @@
-CXX = g++
+CXX = g++-4.8
 INCLUDE = \
 	-I../../common \
 	-I../../libquash \
-	-I/usr/include/qt4 \
-	-I/usr/include/qt4/Qt \
-	-I/usr/include/qt4/QtCore
+	-I/usr/include/qt5 \
+	-I/usr/include/qt5/Qt \
+	-I/usr/include/qt5/QtCore
 #CXXFLAGS = -O3 -Wall -Wextra -g -std=c99 $(INCLUDE)
-CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 $(INCLUDE) -DDEBUG
+CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 -fPIC $(INCLUDE) -DDEBUG
 LD = $(CXX)
-ANY_LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQtCore -L../../libquash/
-STATIC_LIBS = -lquash
+ANY_LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQt5Core
+STATIC_LIBS = -L../../libquash/ -lquash
 LIBS =  -Wl,-Bstatic $(STATIC_LIBS) -Wl,-Bdynamic $(ANY_LIBS)
 LFLAGS = $(LIBS)
 

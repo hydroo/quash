@@ -1,14 +1,14 @@
 AR = ar
-CXX = g++
+CXX = g++-4.8
 INCLUDE = \
 	-I../common \
-	-I/usr/include/qt4 \
-	-I/usr/include/qt4/Qt \
-	-I/usr/include/qt4/QtCore
+	-I/usr/include/qt5 \
+	-I/usr/include/qt5/Qt \
+	-I/usr/include/qt5/QtCore
 #CXXFLAGS = -O3 -Wall -Wextra -g -std=c99 $(INCLUDE)
-CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 $(INCLUDE) -DDEBUG
+CXXFLAGS = -O0 -Wall -Wextra -g -std=c++11 -fPIC $(INCLUDE) -DDEBUG
 LD = $(CXX)
-LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQtCore
+LIBS = -L/usr/lib/x86_64-linux-gnu/ -lm -lQt5Core
 LFLAGS = $(LIBS)
 
 SHARED_LIBRARY = libquash.so
@@ -43,7 +43,7 @@ $(SHARED_LIBRARY): $(OBJECTS)
 	@echo ""
 
 %.o: %.cpp
-	$(CXX) -fPIC $(INCLUDES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: dep
 dep: $(SOURCES)
