@@ -266,6 +266,15 @@ ComplexMatrix ComplexMatrix_Zero(int height) {
     return m;
 }
 
+ComplexMatrix ComplexMatrix_controlledNot(bool (f)(bool)) {
+    ComplexMatrix m(ComplexMatrix_Zero(4));
+    Complex_set(m.at(       f(0) , 0), Complex_One);
+    Complex_set(m.at(     1^f(0) , 1), Complex_One);
+    Complex_set(m.at(2 +    f(1) , 2), Complex_One);
+    Complex_set(m.at(2 + (1^f(1)), 3), Complex_One);
+    return m;
+}
+
 QDebug operator<<(QDebug s, const ComplexMatrix& m) {
     s << ComplexMatrix_toString(m);
     return s;

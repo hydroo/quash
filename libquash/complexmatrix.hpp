@@ -55,6 +55,10 @@ const ComplexMatrix ComplexMatrix_Hadamard = ComplexMatrix_fromString(
         "[0.7071067811865475,  0.7071067811865475]"
         "[0.7071067811865475, -0.7071067811865475]");
 
+// 4x4 matrix that realizes the 'controlled not circuit':
+// x ⊕ y |-> X ⊕ (y^f(x))
+ComplexMatrix ComplexMatrix_controlledNot(bool (f)(bool));
+
 QDebug operator<<(QDebug s, const ComplexMatrix& v);
 
 #endif
