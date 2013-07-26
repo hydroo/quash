@@ -50,6 +50,10 @@ bool ComplexMatrix_isEqual(const ComplexMatrix& lhs, const ComplexMatrix& rhs, d
 
 ComplexMatrix ComplexMatrix_Identity(int height);
 
+const ComplexMatrix ComplexMatrix_Hadamard = ComplexMatrix_fromString(
+        "[0.7071067811865475,  0.7071067811865475]"
+        "[0.7071067811865475, -0.7071067811865475]");
+
 QDebug operator<<(QDebug s, const ComplexMatrix& v);
 
 #endif
